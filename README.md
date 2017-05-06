@@ -30,48 +30,23 @@ While you don't technically need a 'friendly' name for your VPN, this project de
 ## Make it so
 ### Configuration
 
-First, you need to edit a couple of text files. I include a some examples in the project; just edit these and rename them.
+First, you need to edit a couple of text files. I included examples in the project; just edit these and rename them.
 
 #### terraform.tfvars
-This file defines some variables so Terraform can deploy your EC2 instance in AWS.
-```
-aws_access_key = "foo"
-aws_secret_key = "secretfoo"
-region - "us-east-1"
-base_image = "ami-e5ad85f2"
-instance_type = "t2.micro"
-ssh_key = "/path/to/your_private_key.pem"
-ssh_key_name = "your_private_key"
-```
 
-**aws_access_key** - Your Access Key ID.
-
-**aws_secret_key** - Your Secret Access Key.
-
-**region** - AWS region to deploy to.
-
-**base_image** - AMI ID of the Fedora Cloud image in your region. The included ID is Fedora 25 in us-east-1.
-
-**instance_type** - EC2 instance type. t2.micro is probably fine for personal use.
-
-**ssh_key** - Path to your local secret EC2 (SSH) Key.
-
-**ssh_key_name** - Name of the Key Pair in EC2.
+- **aws_access_key** - Your Access Key ID.
+- **aws_secret_key** - Your Secret Access Key.
+- **region** - AWS region to deploy to.
+- **base_image** - AMI ID of the Fedora Cloud image in your region. The included ID is Fedora 25 in us-east-1.
+- **instance_type** - EC2 instance type. t2.micro is probably fine for personal use.
+- **ssh_key** - Path to your local secret EC2 (SSH) Key.
+- **ssh_key_name** - Name of the Key Pair in EC2.
 
 
 #### files_to_provision/vpn.yaml
-```yaml
----
-vpn_url: myvpn.example.com
-clients:
-  - my-laptop
-  - my-phone
-  - my-tablet
-```
 
-**vpn_url** - The FQDN you'll assign to your VPN.
-
-**clients** - A list of client configs you want to generate. This could be a single client config if that's what you want.
+- **vpn_url** - The FQDN you'll assign to your VPN.
+- **clients** - A list of client configs you want to generate. This could be a single client config if that's what you want.
 
 Note! yaml is very sensitive to syntax, so watch your spaces and indents.
 
