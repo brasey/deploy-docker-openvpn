@@ -101,6 +101,10 @@ Answer the prompts and configure your VPN.
 Note that the CA setup phase can take a long time. Be patient.
 
 
+### Create DNS A record
+However you manage your DNS, go add an A record. Make the FQDN you chose point to the IP address of your EC2 instance.
+
+
 ### Client setup
 Client configs for each of the clients you defined will be on your EC2 instance. Retrieve them
 ```shell
