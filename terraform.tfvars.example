@@ -1,0 +1,7 @@
+aws_access_key = "foo"
+aws_secret_key = "secretfoo"
+region = "us-east-1"
+base_image = "ami-e5ad85f2"
+instance_type = "t2.micro"
+ssh_key = "/path/to/your_private_key.pem"
+ssh_key_name = "your_private_key"

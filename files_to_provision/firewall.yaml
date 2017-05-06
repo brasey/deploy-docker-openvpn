@@ -1,0 +1,17 @@
+---
+firewalld::zones:
+  public:
+    masquerade: true
+firewalld::rich_rules:
+  'Accept SSH':
+    ensure: present
+    zone: public
+    action: 'accept'
+    service: 'ssh'
+  'Accept 1194 udp':
+    ensure: present
+    zone: public
+    action: 'accept'
+    port:
+      port: 1194
+      protocol: 'udp'

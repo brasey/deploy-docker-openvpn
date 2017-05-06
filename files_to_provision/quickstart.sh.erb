@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Pick a name for the $OVPN_DATA data volume container, it will be created automatically.
+OVPN_DATA="ovpn-data"
+
+# Rebuild docker0 bridge - had to do this to allow iptables command to succeed.
+systemctl stop docker
+ip link del docker0
+systemctl start docker
+
+# Initialize the $OVPN_DATA container that will hold the configuration files and certificates
+docker volume create --name $OVPN_DATA
+docker run -v ${OVPN_DATA}:/etc/openvpn --rm kylemanna/openvpn ovpn_genconfig -u udp://<%= @vpn_url %> -C 'AES-256-CBC' -a 'SHA384'
+docker run -e EASYRSA_KEY_SIZE=2048 -v ${OVPN_DATA}:/etc/openvpn --rm -it kylemanna/openvpn ovpn_initpki
+
+# Start OpenVPN server process
+docker run -v ${OVPN_DATA}:/etc/openvpn -d -p 1194:1194/udp --cap-add=NET_ADMIN --name $OVPN_DATA kylemanna/openvpn
+
+# Generate a client certificate without a passphrase
+# and
+# Retrieve the client configuration with embedded certificates
+<% @clients.each do |client| %>
+docker run -e EASYRSA_KEY_SIZE=2048 -v ${OVPN_DATA}:/etc/openvpn --rm -it kylemanna/openvpn easyrsa build-client-full <%= client %> nopass
+docker run -v ${OVPN_DATA}:/etc/openvpn --log-driver=none --rm kylemanna/openvpn ovpn_getclient <%= client %> > <%= client %>.ovpn
+<% end %>
+
+# Stop the docker container
+docker stop $OVPN_DATA
+
+# Enable and start openvpn container as a service
+systemctl enable docker-openvpn@data.service
+systemctl start docker-openvpn@data.service

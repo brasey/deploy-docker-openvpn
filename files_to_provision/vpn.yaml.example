@@ -1,0 +1,6 @@
+---
+vpn_url: myvpn.example.com
+clients:
+  - my-laptop
+  - my-phone
+  - my-tablet

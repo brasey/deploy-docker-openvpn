@@ -1,0 +1,4 @@
+.vagrant
+terraform.tfvars
+terraform.tfstate*
+files_to_provision/vpn.yaml
