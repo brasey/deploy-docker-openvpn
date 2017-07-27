@@ -1,0 +1,6 @@
+- [ ] Install and configure fail2ban [like this](https://fedoraproject.org/wiki/Fail2ban_with_FirewallD)
+- [ ] sshd_config: KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+- [ ] sshd_config: Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+- [ ] sshd_config: MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+- [ ] sshd_config: PermitRootLogin no
+- [ ] sshd_config: UseDNS no
