@@ -1,6 +1,7 @@
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "region" {}
+variable "route53_domain_name" {}
 variable "base_image" {}
 variable "instance_type" {}
 variable "ssh_key" {}
@@ -10,6 +11,10 @@ provider "aws" {
   access_key = "${var.aws_access_key}"
   secret_key = "${var.aws_secret_key}"
   region = "${var.region}"
+}
+
+data "aws_route53_zone" "main" {
+  name = "${var.route53_domain_name}"
 }
 
 resource "aws_security_group" "vpn" {
@@ -64,6 +69,14 @@ resource "aws_instance" "vpn" {
       private_key = "${file(var.ssh_key)}"
     }
   }
+}
+
+resource "aws_route53_record" "vpn"{
+  zone_id = "${data.aws_route53_zone.main.id}"
+  name    = "vpn"
+  type    = "A"
+  ttl     = "300"
+  records = ["${aws_instance.vpn.public_ip}"]
 }
 
 output "address" {

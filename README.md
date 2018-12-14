@@ -25,7 +25,7 @@ The point of this project is to set up an OpenVPN box in [AWS](https://aws.amazo
 
 While you don't technically need a 'friendly' name for your VPN, this project depends on your having one. You could work your way around this, but I didn't think it too burdensome to require one. You'll need to be able to assign the IP address of your VPN to this [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) after you're assigned one during provisioning.
 
-
+I've also included managing this FQDN in Route53, if you go your own way you'll have to comment out this stuff.
 
 ## Make it so
 ### Configuration
@@ -34,14 +34,14 @@ First, you need to edit a couple of text files. I included examples in the proje
 
 #### terraform.tfvars
 
-- **aws_access_key** - Your Access Key ID.
-- **aws_secret_key** - Your Secret Access Key.
-- **region** - AWS region to deploy to.
-- **base_image** - AMI ID of the Fedora Cloud image in your region. The included ID is Fedora 25 in us-east-1.
-- **instance_type** - EC2 instance type. t2.micro is probably fine for personal use.
-- **ssh_key** - Path to your local secret EC2 (SSH) Key.
-- **ssh_key_name** - Name of the Key Pair in EC2.
-
+* **aws_access_key** - Your Access Key ID.
+* **aws_secret_key** - Your Secret Access Key.
+* **region** - AWS region to deploy to.
+* **route53_domain_name** - The domain your FQDN will be in.
+* **base_image** - AMI ID of the Fedora Cloud image in your region. The included ID is Fedora 29 in us-east-1.
+* **instance_type** - EC2 instance type. t2.micro is probably fine for personal use.
+* **ssh_key** - Path to your local secret EC2 (SSH) Key.
+* **ssh_key_name** - Name of the Key Pair in EC2.
 
 #### files_to_provision/vpn.yaml
 
@@ -74,11 +74,6 @@ sudo /opt/docker-openvpn/quickstart.sh
 Answer the prompts and configure your VPN.
 
 Note that the CA setup phase can take a long time. Be patient.
-
-
-### Create DNS A record
-However you manage your DNS, go add an A record. Make the FQDN you chose point to the IP address of your EC2 instance.
-
 
 ### Client setup
 Client configs for each of the clients you defined will be on your EC2 instance. Retrieve them
